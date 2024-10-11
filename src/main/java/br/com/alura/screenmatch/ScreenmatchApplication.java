@@ -1,5 +1,6 @@
 package br.com.alura.screenmatch;
 
+import br.com.alura.screenmatch.model.DadosEpisodio;
 import br.com.alura.screenmatch.model.DadosSerie;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
@@ -19,12 +20,21 @@ public class ScreenmatchApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Dotenv dotenv = Dotenv.load();
 		String apiKey = dotenv.get("API_KEY");
+
 		var consumoApi = new ConsumoApi();
 		var json = consumoApi.obterDados("https://www.omdbapi.com/?t=the+witcher&apikey="+apiKey);
 		System.out.println(json);
+
 		ConverteDados conversor = new ConverteDados();
-		DadosSerie dados = conversor.obterDados(json, DadosSerie.class);
-		System.out.println(dados);
+
+		DadosSerie dadosSerie = conversor.obterDados(json, DadosSerie.class);
+		System.out.println(dadosSerie);
+
+		json = consumoApi.obterDados("https://www.omdbapi.com/?t=the+witcher&season=2&episode=3&apikey="+apiKey);
+		DadosEpisodio dadosEpisodio = conversor.obterDados(json, DadosEpisodio.class);
+		System.out.println(dadosEpisodio);
+
+
 
 
 	}
