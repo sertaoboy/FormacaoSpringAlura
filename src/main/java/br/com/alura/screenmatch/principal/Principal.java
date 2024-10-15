@@ -57,11 +57,16 @@ public class Principal {
                 .flatMap(t -> t.episodios().stream())
                 .collect(Collectors.toList());
 
-        System.out.println("\nTop 5 episodios:");
+        System.out.println("\nTop 10 episodios:");
         listaDadosTemporadas.stream()
                 .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
+                .peek(e -> System.out.println("Filtrando(N/A) "+ e))
                 .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
-                .limit(5)
+                .peek(e -> System.out.println("Ordenacao "+ e))
+                .limit(10)
+                .peek(e -> System.out.println("Limite "+ e))
+                .map(e -> e.titulo().toUpperCase())
+                .peek(e -> System.out.println("Mapeando "+ e))
                 .forEach(System.out::println);
 
         System.out.println("Lista de episodios:");
