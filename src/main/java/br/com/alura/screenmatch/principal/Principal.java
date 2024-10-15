@@ -10,10 +10,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -75,6 +72,18 @@ public class Principal {
                         .map(d -> new Episodio(t.numero(), d))
                 ).collect(Collectors.toList());
         episodios.forEach(System.out::println);
+        System.out.println("Insira o titulo desejado para busca");
+        String trechoTitulo = leitura.nextLine();
+        Optional<Episodio> episodioBuscado = episodios.stream()
+                .filter(e -> e.getTitulo().toUpperCase().contains(trechoTitulo.toUpperCase())) //convertendo o titulo do episodio buscado para maiusculo; evitando excecoes do input
+                .findFirst();
+        if(episodioBuscado.isPresent()) {
+            System.out.println("Episodio encontrado");
+            System.out.println("Temporada: "+episodioBuscado.get().getTemporada());
+        }else{
+            System.out.println("Episodio nao encontrado");
+        }
+
 
         System.out.println("Insira o ano dos episodios desejados:");
         var ano = leitura.nextInt();
