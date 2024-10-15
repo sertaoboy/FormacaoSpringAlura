@@ -8,6 +8,8 @@ import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
 import io.github.cdimascio.dotenv.Dotenv;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -62,11 +64,26 @@ public class Principal {
                 .limit(5)
                 .forEach(System.out::println);
 
+        System.out.println("Lista de episodios:");
         List<Episodio> episodios = dadosTemporadas.stream()
                 .flatMap(t -> t.episodios().stream()
                         .map(d -> new Episodio(t.numero(), d))
                 ).collect(Collectors.toList());
         episodios.forEach(System.out::println);
+
+        System.out.println("Insira o ano dos episodios desejados:");
+        var ano = leitura.nextInt();
+        leitura.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataBusca = LocalDate.of(ano,1,1);
+        episodios.stream()
+                .filter(e -> e.getDataLancamento() != null && e.getDataLancamento().isAfter(dataBusca))
+                .forEach(e -> System.out.println(
+                        "Temporada:"+e.getTemporada() +
+                                "Episodio:"+e.getTitulo() +
+                                "Data lancamento:"+e.getDataLancamento().format(formatter)
+                ));
+
 
 
 
