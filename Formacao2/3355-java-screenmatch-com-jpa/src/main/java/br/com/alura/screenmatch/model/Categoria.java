@@ -10,9 +10,7 @@ public enum Categoria {
     ANIMACAO("Animation"),
     DOCUMENTARIO("Documentary"),
     TERROR("Horror");
-
-
-    public String teste;
+    
 
     private String categoriaOmdb;
     Categoria(String categoriaOmdb){
