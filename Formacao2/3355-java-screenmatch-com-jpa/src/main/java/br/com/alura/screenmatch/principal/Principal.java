@@ -61,13 +61,13 @@ public class Principal {
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
-       dadosSeries.forEach(System.out::println);
+//       dadosSeries.forEach(System.out::println);
     }
 
     private void buscarSerieWeb() {
         DadosSerie dados = getDadosSerie();
         dadosSeries.add(dados);
-//        System.out.println(dados);
+//       System.out.println(dados);
     }
 
     private DadosSerie getDadosSerie() {
