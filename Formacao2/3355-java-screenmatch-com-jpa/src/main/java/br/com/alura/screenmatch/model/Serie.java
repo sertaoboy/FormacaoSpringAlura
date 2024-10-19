@@ -22,12 +22,13 @@ public class Serie {
     private Categoria genero;
     private String atores;
     private String posterUrl;
+    @Column(length = 1000)
     private String sinpose;
     private String premio;
     private LocalDate lancamento;
     private LocalDate duracao;
     private List<String> votacoes;
-    @Transient
+    @OneToMany(mappedBy = "serie",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Episodio> episodios = new ArrayList<>();
 
     public Serie(DadosSerie dadosSerie){
@@ -40,23 +41,6 @@ public class Serie {
         this.sinpose = ConsultaMyMemory.obterTraducao(dadosSerie.sinopse()).trim();
         //this.sinpose = ConsultaChatGPT.obterTraducao(dadosSerie.sinopse()).trim();
 
-    }
-
-    @Override
-    public String toString() {
-        return
-                "Genero: "+ genero +
-                "titulo='" + titulo + '\'' +
-                ", totalTemporadas=" + totalTemporadas +
-                ", avaliacao=" + avaliacao +
-                ", genero=" + genero +
-                ", atores='" + atores + '\'' +
-                ", posterUrl='" + posterUrl + '\'' +
-                ", sinpose='" + sinpose + '\'' +
-                ", premio='" + premio + '\'' +
-                ", lancamento=" + lancamento +
-                ", duracao=" + duracao +
-                ", votacoes=" + votacoes;
     }
 
     public Serie(){
@@ -82,6 +66,7 @@ public class Serie {
     }
 
     public void setEpisodios(List<Episodio> episodios) {
+        episodios.forEach(e->e.setSerie(this));
         this.episodios = episodios;
     }
 
@@ -179,5 +164,22 @@ public class Serie {
 
     public void setVotacoes(List<String> votacoes) {
         this.votacoes = votacoes;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "  titulo='" + titulo + '\'' +
+                ", totalTemporadas=" + totalTemporadas +
+                ", avaliacao=" + avaliacao +
+                ", genero=" + genero +
+                ", atores='" + atores + '\'' +
+                ", posterUrl='" + posterUrl + '\'' +
+                ", sinpose='" + sinpose + '\'' +
+                ", premio='" + premio + '\'' +
+                ", lancamento=" + lancamento +
+                ", duracao=" + duracao +
+                ", votacoes=" + votacoes +
+                ", episodios=" + episodios;
     }
 }
