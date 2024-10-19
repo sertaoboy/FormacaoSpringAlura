@@ -62,6 +62,7 @@ public class Serie {
     public Serie(){
 
     }
+
     public Serie(String titulo, Integer totalTemporadas, Double avaliacao, Categoria genero, String atores, String posterUrl, String sinpose, String premio, LocalDate lancamento, LocalDate duracao, List<String> votacoes) {
         this.titulo = titulo;
         this.totalTemporadas = totalTemporadas;

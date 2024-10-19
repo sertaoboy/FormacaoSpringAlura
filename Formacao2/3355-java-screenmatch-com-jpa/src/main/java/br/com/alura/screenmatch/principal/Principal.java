@@ -27,6 +27,7 @@ public class Principal {
 
 
     public void exibeMenu() {
+
         int opcao;
         do{
             var menu = """
@@ -64,10 +65,11 @@ public class Principal {
     }
 
     public void listarSeriesBuscadas(){
-        List<Serie> series = new ArrayList<>();
-        series = dadosSeries.stream()
-                        .map(d-> new Serie(d))
-                                .collect(Collectors.toList());
+        List<Serie> series;
+        series = repositorio.findAll();
+//                dadosSeries.stream()
+//                        .map(d-> new Serie(d))
+//                                .collect(Collectors.toList());
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
