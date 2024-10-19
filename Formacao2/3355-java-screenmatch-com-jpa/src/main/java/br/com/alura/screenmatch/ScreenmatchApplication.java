@@ -25,9 +25,5 @@ public class ScreenmatchApplication implements CommandLineRunner {
 		Principal principal = new Principal(repositorio);
 		principal.exibeMenu();
 
-
-//		Serie naruto = new Serie();
-//		naruto.setSinpose("Naruto Uzumaki, a mischievous adolescent ninja, struggles as he searches for recognition and dreams of becoming the Hokage, the village's leader and strongest ninja.");
-//		ConsultaChatGPT.obterTraducao(naruto.getSinpose());
 	}
 }
