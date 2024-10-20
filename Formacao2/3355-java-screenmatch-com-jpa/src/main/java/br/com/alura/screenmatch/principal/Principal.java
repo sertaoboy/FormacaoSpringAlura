@@ -7,7 +7,6 @@ import br.com.alura.screenmatch.model.Serie;
 import br.com.alura.screenmatch.repository.SerieRepository;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -37,6 +36,8 @@ public class Principal {
                 2 - Buscar episódios
                 3 - Listar series buscadas
                 4 - Buscar serie por titulo
+                5 - Buscar series por ator
+                6 - Buscar top 5 series
                 
                 0 - Sair                                 
                 """;
@@ -46,16 +47,34 @@ public class Principal {
             leitura.nextLine();
             switch (opcao) {
                 case 1:
+                    System.out.println("----------------------------------------------------------");
                     buscarSerieWeb();
+                    System.out.println("----------------------------------------------------------");
                     break;
                 case 2:
+                    System.out.println("----------------------------------------------------------");
                     buscarEpisodioPorSerie();
+                    System.out.println("----------------------------------------------------------");
                     break;
                 case 3:
+                    System.out.println("----------------------------------------------------------");
                     listarSeriesBuscadas();
+                    System.out.println("----------------------------------------------------------");
                     break;
                 case 4:
+                    System.out.println("----------------------------------------------------------");
                     buscarSeriePorTitulo();
+                    System.out.println("----------------------------------------------------------");
+                    break;
+                case 5:
+                    System.out.println("----------------------------------------------------------");
+                    buscarSeriesPorAtor();
+                    System.out.println("----------------------------------------------------------");
+                    break;
+                case 6:
+                    System.out.println("----------------------------------------------------------");
+                    buscarTopCincoSeries();
+                    System.out.println("----------------------------------------------------------");
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -66,6 +85,22 @@ public class Principal {
         }while(opcao!=0);
 
     }
+
+    private void buscarTopCincoSeries(){
+        List<Serie> seriesTop = repositorio.findTop5ByOrderByAvaliacaoDesc();
+        seriesTop.forEach(s -> System.out.println(s.getTitulo()+" avaliacao:"+s.getAvaliacao()));
+    }
+
+    public void buscarSeriesPorAtor(){
+        System.out.println("Qual o nome para a busca?");
+        String nomeAtor = leitura.nextLine();
+        System.out.println("Avaliacoes a partir de que valor? ");
+        var avaliacao = leitura.nextDouble();
+        List<Serie> seriesEncontradas = repositorio.findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(nomeAtor,avaliacao);
+        System.out.println("Series em que "+nomeAtor+" trabalhou:");
+        seriesEncontradas.forEach(s -> System.out.println(s.getTitulo() + ": "+s.getAvaliacao()));
+    }
+
 
     private void buscarSeriePorTitulo() {
         System.out.println("Escolha uma serie pelo nome:");
