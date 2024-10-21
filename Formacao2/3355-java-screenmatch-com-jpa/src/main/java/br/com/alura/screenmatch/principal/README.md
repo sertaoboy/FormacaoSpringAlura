@@ -380,7 +380,7 @@ public class Episodio {
 ```
 ```java
 public class Serie {
-  OneToMany(mappedBy = "serie",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+   @OneToMany(mappedBy = "serie",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<Episodio> episodios = new ArrayList<>();
 ```
 - Configurar relacionamentos bidirecionais. Importancia de relacionamentos bidirecionais e deixamos as modificacoes aparecendo dos dois lados da relacao, fazendo tanto `setEpisodios()` na Serie quanto `setSerie()` nos Episodios.
