@@ -372,9 +372,11 @@ public class Episodio {
 - Identificar como os dados sao carregados. Uso com o atributo `fetch`, que fala sobre carregar os dados de forma "preguicosa"(`lazy`) ou "ansiosa"(`eager`).
 ```java
 public class Episodio {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    ...
+    @ManyToOne
+    private Serie serie;
+    ...
+    ...
 ```
 ```java
 public class Serie {
