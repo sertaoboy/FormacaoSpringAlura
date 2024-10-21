@@ -368,4 +368,10 @@ public class Episodio {
 - Associar chaves estrangeiras. Entender o conceito de chave estrangeira, que e como o banco de dados identifica e configura relacionamentos.
 - Trabalhar com tipos de Cascade. Como o fluxo de salvamento era salvar series e depois episodios, foi preciso configurar isso utilizando o atributo `Cascade`.
 - Identificar como os dados sao carregados. Uso com o atributo `fetch`, que fala sobre carregar os dados de forma "preguicosa"(`lazy`) ou "ansiosa"(`eager`).
+```java
+public class Episodio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+```
 - Configurar relacionamentos bidirecionais. Importancia de relacionamentos bidirecionais e deixamos as modificacoes aparecendo dos dois lados da relacao, fazendo tanto `setEpisodios()` na Serie quanto `setSerie()` nos Episodios.
