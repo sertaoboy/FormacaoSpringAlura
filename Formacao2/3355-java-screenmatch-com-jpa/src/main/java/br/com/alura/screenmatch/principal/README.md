@@ -430,8 +430,8 @@ class principal {
                  	 	//.collect(Collectors.toList());
 
                 series.stream()
-                .sorted(Comparator.comparing(Serie::getGenero))
-                	.forEach(System.out::println);
+               		.sorted(Comparator.comparing(Serie::getGenero))
+                		.forEach(System.out::println);
                 // dadosSeries.forEach(System.out::println);
     }
 ```
