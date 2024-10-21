@@ -1,4 +1,4 @@
-# Aula 2
+# Aula 1
 - Buscar series na API; Interacao com o usuario atraves do loop.
 - Metodos privados; Encapsulamento nos metodos que somente a classe ira usar.
 >Excecao do construtor que espera um repositorio `SerieRepository`, pois ele esta sendo chamado no metodo `run()` na aplicacao principal: <br>
