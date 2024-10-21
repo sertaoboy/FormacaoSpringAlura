@@ -327,3 +327,44 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 }
 ```
 
+# Aula 3
+- Mapeamento relacionados entre entidades da JPA. Uso de anotacoes `@OneToMany` e `@ManyToOne` para identificar o relacionamento "um para muitos" de series e episodios.
+```java
+@Entity
+@Table(name = "series")
+public class Serie {
+   ...
+   ...
+   ...
+   ...
+    OneToMany(mappedBy = "serie",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Episodio> episodios = new ArrayList<>();
+
+	...
+	...
+	...
+}
+@Entity
+@Table(name = "episodios")
+public class Episodio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Integer temporada;
+    private String titulo;
+    private Integer numeroEpisodio;
+    private Double avaliacao;
+    private LocalDate dataLancamento;
+
+    @ManyToOne
+    private Serie serie;
+
+	...
+	...
+	...
+}
+```
+- Associar chaves estrangeiras. Entender o conceito de chave estrangeira, que e como o banco de dados identifica e configura relacionamentos.
+- Trabalhar com tipos de Cascade. Como o fluxo de salvamento era salvar series e depois episodios, foi preciso configurar isso utilizando o atributo `Cascade`.
+- Identificar como os dados sao carregados. Uso com o atributo `fetch`, que fala sobre carregar os dados de forma "preguicosa"(`lazy`) ou "ansiosa"(`eager`).
+- Configurar relacionamentos bidirecionais. Importancia de relacionamentos bidirecionais e deixamos as modificacoes aparecendo dos dois lados da relacao, fazendo tanto `setEpisodios()` na Serie quanto `setSerie()` nos Episodios.
