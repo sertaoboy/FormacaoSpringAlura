@@ -100,38 +100,13 @@ public class ConsumoApi {
         return json;
     }
 }
-public class ConsultaMyMemory {
-    public static String obterTraducao(String text) {
-        ObjectMapper mapper = new ObjectMapper();
 
-        ConsumoApi consumo = new ConsumoApi();
-
-        String texto = URLEncoder.encode(text);
-        String langpair = URLEncoder.encode("en|pt-br");
-
-        String url = "https://api.mymemory.translated.net/get?q=" + texto + "&langpair=" + langpair;
-
-        String json = consumo.obterDados(url);
-
-        DadosTraducao traducao;
-        try {
-            traducao = mapper.readValue(json, DadosTraducao.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        return traducao.dadosResposta().textoTraduzido();
-    }
-}
-public class Principal {
-
-    private Scanner leitura = new Scanner(System.in);
+class Principal {
     private ConsumoApi consumo = new ConsumoApi();
     private ConverteDados conversor = new ConverteDados();
     ...
             ...
             ...
-
     private DadosSerie getDadosSerie() {
         System.out.println("Digite o nome da série para busca");
         var nomeSerie = leitura.nextLine();
@@ -139,10 +114,8 @@ public class Principal {
         DadosSerie dados = conversor.obterDados(json, DadosSerie.class);
         return dados;
     }
-    
     private void buscarEpisodioPorSerie(){
         listarSeriesBuscadas();
-//        DadosSerie dadosSerie = getDadosSerie();
         System.out.println("Escolha uma serie pelo nome:");
         String nomeSerie = leitura.nextLine();
         Optional<Serie> serie = repositorio.findByTituloContainingIgnoreCase(nomeSerie);
@@ -155,7 +128,6 @@ public class Principal {
                 temporadas.add(dadosTemporada);
             }
             temporadas.forEach(System.out::println);
-
             List<Episodio> episodios = temporadas.stream()
                     .flatMap(d -> d.episodios().stream()
                             .map(e -> new Episodio(d.numero(), e)))
