@@ -384,3 +384,23 @@ public class Serie {
    private List<Episodio> episodios = new ArrayList<>();
 ```
 - Configurar relacionamentos bidirecionais. Importancia de relacionamentos bidirecionais e deixamos as modificacoes aparecendo dos dois lados da relacao, fazendo tanto `setEpisodios()` na Serie quanto `setSerie()` nos Episodios.
+```java
+class Serie {
+	...
+	...
+	...
+	public void setEpisodios(List<Episodio> episodios) {
+        	 episodios.forEach(e->e.setSerie(this));
+     		 this.episodios = episodios;
+    	}
+}
+
+class Episodio {
+	...
+	...
+	public void setSerie(Serie serie) {
+        this.serie = serie;
+    }
+}
+```
+
