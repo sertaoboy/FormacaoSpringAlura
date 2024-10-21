@@ -427,7 +427,7 @@ class principal {
        		 series = repositorio.findAll();
                  //dadosSeries.stream()
                 	 //.map(d-> new Serie(d))
-                 	 //.collect(Collectors.toList());
+                 	 	//.collect(Collectors.toList());
 
                 series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
