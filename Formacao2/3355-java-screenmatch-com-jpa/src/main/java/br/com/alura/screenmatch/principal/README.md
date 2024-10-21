@@ -312,3 +312,18 @@ public class ScreenmatchApplication implements CommandLineRunner {
 }
 ```
 - Utilizar variaveis de ambiente. Utilizacao de variaveis no linux para proteger dados senviveis com a conexao do banco de dados.
+- Manipular interfaces do tipo Repository. Para fazer operacoes basicas no banco de dados, como um CRUD, precisamos de uma interface do tipo Repository com o nosso tipo de dados. No caso, `SerieRepository`:
+```java 
+public interface SerieRepository extends JpaRepository<Serie, Long> {
+    Optional <Serie> findByTituloContainingIgnoreCase(String nomeSerie);
+
+    List<Serie> findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(String nomeAtor, Double avaliacao);
+
+    List<Serie> findTop5ByOrderByAvaliacaoDesc();
+
+    List<Serie> findByGenero(Categoria categoria);
+
+    List<Serie> findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(int totalTemporadas, double totalAvaliacao);
+}
+```
+
