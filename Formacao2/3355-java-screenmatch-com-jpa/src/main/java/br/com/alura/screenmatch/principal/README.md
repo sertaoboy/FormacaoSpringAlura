@@ -403,4 +403,74 @@ class Episodio {
     }
 }
 ```
+# Aula 4
+- Criacao de queries derivadas com a JPA. Conhecemos o recurso padrao da JPA para fazer buscas utilizando palavras-chave em metodos que utilizam a interface Repository:
+```java
+public interface SerieRepository extends JpaRepository<Serie, Long> {
+    Optional <Serie> findByTituloContainingIgnoreCase(String nomeSerie);
 
+    List<Serie> findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(String nomeAtor, Double avaliacao);
+
+    List<Serie> findTop5ByOrderByAvaliacaoDesc();
+
+    List<Serie> findByGenero(Categoria categoria);
+
+    List<Serie> findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(int totalTemporadas, double totalAvaliacao);
+}
+```
+- Mudancas quando utilizou-se streams e as derived queries:
+```class principal {
+	
+
+	    private void listarSeriesBuscadas(){
+
+        series = repositorio.findAll();
+//                dadosSeries.stream()
+//                        .map(d-> new Serie(d))
+//                                .collect(Collectors.toList());
+        series.stream()
+                .sorted(Comparator.comparing(Serie::getGenero))
+                .forEach(System.out::println);
+//       dadosSeries.forEach(System.out::println);
+    }
+```
+- Ler dados dinamicamente e armazenar em um Enum. Fazer correspondencia entre o que esta sendo digitado e um campo no Enum:
+```java
+public enum Categoria {
+    ACAO("Action", "Acao"),
+    ROMANCE("Romance", "Romance"),
+    COMEDIA("Comedy", "Comedia"),
+    DRAMA("Drama", "Drama"),
+    CRIME("Crime", "Crime"),
+    AVENTURA("Adventure", "Aventura"),
+    ANIMACAO("Animation", "Animacao"),
+    DOCUMENTARIO("Documentary", "Documentario"),
+    TERROR("Horror", "Terror");
+    
+
+    private String categoriaOmdb;
+    private String categoriaPortugues;
+    Categoria(String categoriaOmdb, String categoriaPortugues){
+        this.categoriaOmdb = categoriaOmdb;
+        this.categoriaPortugues = categoriaPortugues;
+    }
+
+    public static Categoria fromPortugues(String text) {
+        for (Categoria categoria : Categoria.values()) {
+            if (categoria.categoriaPortugues.equalsIgnoreCase(text)) {
+                return categoria;
+            }
+        }
+        throw new IllegalArgumentException("Nenhuma categoria encontrada para a string fornecida: " + text);
+    }
+
+    public static Categoria fromString(String text) {
+        for (Categoria categoria : Categoria.values()) {
+            if (categoria.categoriaOmdb.equalsIgnoreCase(text)) {
+                return categoria;
+            }
+        }
+        throw new IllegalArgumentException("Nenhuma categoria encontrada para a string fornecida: " + text);
+    }
+}
+```
