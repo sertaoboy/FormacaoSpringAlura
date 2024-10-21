@@ -419,19 +419,20 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 }
 ```
 - Mudancas quando utilizou-se streams e as derived queries:
-```class principal {
+```java
+class principal {
 	
 
 	    private void listarSeriesBuscadas(){
+       		 series = repositorio.findAll();
+                 //dadosSeries.stream()
+                	 //.map(d-> new Serie(d))
+                 	 //.collect(Collectors.toList());
 
-        series = repositorio.findAll();
-//                dadosSeries.stream()
-//                        .map(d-> new Serie(d))
-//                                .collect(Collectors.toList());
-        series.stream()
+                series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
-                .forEach(System.out::println);
-//       dadosSeries.forEach(System.out::println);
+                	.forEach(System.out::println);
+                // dadosSeries.forEach(System.out::println);
     }
 ```
 - Ler dados dinamicamente e armazenar em um Enum. Fazer correspondencia entre o que esta sendo digitado e um campo no Enum:
