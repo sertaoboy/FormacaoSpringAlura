@@ -272,5 +272,43 @@ spring.jpa.show-sql=true
 spring.jpa.format-sql=true
 ```
 - Utilzacao de anotacoes do Hibernate para mapear as entidades. `@Entity`, `@Transient` e `@Column` na classe `Serie`, indicando como seriam as configuracoes da tabela correspondente, foi criado a `SerieRepository`.
+```java
+@Entity
+@Table(name = "series")
+public class Serie {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Indicando que o identificador sera autoincremental para a JPA
+    private Long id;
+    @Column(unique = true)
+    private String titulo;
+    private Integer totalTemporadas;
+    private Double avaliacao;
+    @Enumerated(EnumType.STRING)
+    private Categoria genero;
+    private String atores;
+    private String posterUrl;
+    @Column(length = 1000)
+    private String sinpose;
+...
+...
+...
+```
 - Injecao de dependencias. Interfaces do tipo Repository nao podem ser instanciadas se nao houver uma declaracao em classes gerenciadas pelo Spring, precedidas de `@Autowired`, indicando que esta sendo realizada uma injecao de dependencias.
+```java
+@SpringBootApplication
+public class ScreenmatchApplication implements CommandLineRunner {
+	@Autowired
+	private SerieRepository repositorio;
+
+	public static void main(String[] args) throws NullPointerException {
+		SpringApplication.run(ScreenmatchApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		Principal principal = new Principal(repositorio);
+		principal.exibeMenu();
+	}
+}
+```
 - Utilizar variaveis de ambiente. Utilizacao de variaveis no linux para proteger dados senviveis com a conexao do banco de dados.
