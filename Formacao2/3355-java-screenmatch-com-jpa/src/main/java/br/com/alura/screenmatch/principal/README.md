@@ -344,6 +344,7 @@ public class Serie {
 	...
 	...
 }
+
 @Entity
 @Table(name = "episodios")
 public class Episodio {
