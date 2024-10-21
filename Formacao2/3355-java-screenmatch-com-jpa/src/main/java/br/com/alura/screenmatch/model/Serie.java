@@ -40,7 +40,6 @@ public class Serie {
         this.posterUrl = dadosSerie.posterUrl();
         this.sinpose = ConsultaMyMemory.obterTraducao(dadosSerie.sinopse()).trim();
         //this.sinpose = ConsultaChatGPT.obterTraducao(dadosSerie.sinopse()).trim();
-
     }
 
     public Serie(){

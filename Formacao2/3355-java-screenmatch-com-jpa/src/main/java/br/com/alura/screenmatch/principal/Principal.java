@@ -96,7 +96,7 @@ public class Principal {
 
     }
 
-    public void buscarSeriesPorTemporadasEAvaliacao(){
+    private void buscarSeriesPorTemporadasEAvaliacao(){
         System.out.println("Insira um total de temporadas para filtrar:");
         var totalTemporadas = leitura.nextInt();
         System.out.println("Com a avaliacao a partir de qual valor?");
@@ -120,7 +120,7 @@ public class Principal {
         seriesTop.forEach(s -> System.out.println(s.getTitulo()+" avaliacao:"+s.getAvaliacao()));
     }
 
-    public void buscarSeriesPorAtor(){
+    private void buscarSeriesPorAtor(){
         System.out.println("Qual o nome para a busca?");
         String nomeAtor = leitura.nextLine();
         System.out.println("Avaliacoes a partir de que valor? ");
@@ -146,7 +146,7 @@ public class Principal {
         this.repositorio = repo;
     }
 
-    public void listarSeriesBuscadas(){
+    private void listarSeriesBuscadas(){
 
         series = repositorio.findAll();
 //                dadosSeries.stream()
