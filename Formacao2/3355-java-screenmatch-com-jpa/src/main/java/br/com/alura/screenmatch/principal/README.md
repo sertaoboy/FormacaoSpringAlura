@@ -242,6 +242,35 @@ public record DadosResposta(@JsonAlias(value = "translatedText") String textoTra
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record DadosTraducao(@JsonAlias(value = "responseData") DadosResposta dadosResposta) {
 }
-
-
 ```
+# Aula 2
+- Instalacao e configuracao do ambiente Postgres (Banco de dados relacional), alem de criar o banco de series.
+- Adicao de dependencias: Dependencia da JPA ao `pom.xml` e as configuracoes do banco de dados em `application.properties`.
+```xml
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+```
+```properties
+spring.datasource.url=jdbc:postgresql://localhost/alura_series
+spring.datasource.username=postgres
+spring.datasource.password=${DB_PASSWORD}
+spring.datasource.driver-class-name=org.postgresql.Driver
+hibernate.dialect=org.hibernate.dialect.HSQLDialect
+
+spring.jpa.hibernate.ddl-auto=update
+
+spring.jpa.show-sql=true
+spring.jpa.format-sql=true
+```
+- Utilzacao de anotacoes do Hibernate para mapear as entidades. `@Entity`, `@Transient` e `@Column` na classe `Serie`, indicando como seriam as configuracoes da tabela correspondente, foi criado a `SerieRepository`.
+- Injecao de dependencias. Interfaces do tipo Repository nao podem ser instanciadas se nao houver uma declaracao em classes gerenciadas pelo Spring, precedidas de `@Autowired`, indicando que esta sendo realizada uma injecao de dependencias.
+- Utilizar variaveis de ambiente. Utilizacao de variaveis no linux para proteger dados senviveis com a conexao do banco de dados.
