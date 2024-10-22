@@ -550,3 +550,32 @@ class Principal {
     }
 }
 ```
+- Adicionando uma consulta para listar os melhores episodios de uma serie inserida:
+```java
+class Principal {
+
+
+    private void topEpisodiosPorSerie() {
+        buscarSeriePorTitulo();
+        if(serieBusca.isPresent()) {
+            Serie serie = serieBusca.get();
+            List<Episodio> topEpisodios = repositorio.topEpisodiosPorSerie(serie);
+            topEpisodios.forEach(e ->
+                    System.out.printf("Serie -> %s Temporada %s - Episodio %s - %s Avaliacao %s\n",
+                            e.getSerie().getTitulo(), e.getTemporada(), e.getNumeroEpisodio(), e.getTitulo(), e.getAvaliacao()));
+        }
+    }
+}
+```
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+interface SerieRepository extends JpaRepository<Serie,Long> {
+
+
+
+    @Query("SELECT e from Serie s Join s.episodios e WHERE s = :serie ORDER BY e.avaliacao DESC LIMIT 5")
+    List<Episodio> topEpisodiosPorSerie(Serie serie);
+}
+```
