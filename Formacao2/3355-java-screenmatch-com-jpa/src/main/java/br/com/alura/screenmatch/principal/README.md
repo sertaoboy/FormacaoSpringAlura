@@ -503,7 +503,6 @@ class Principal {
 } 
 ```
 - *JPQL*. Java Persistence Query Language, linguagem de consulta da JPA. Torna mais flexiveis as consultas, podemos agora realizar pelos atributos e nao ficar presos as colunas do banco de dados.
-
 ```java
 import br.com.alura.screenmatch.model.Serie;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -520,3 +519,32 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 - Porém, há a questão da portabilidade. Como a JPQL é uma abstração de alto nível, ela é compatível com qualquer banco de dados que suporte a especificação JPA. Se você precisar mudar seu aplicativo de um banco de dados para outro, a maioria das suas consultas JPQL continuarão funcionando sem alterações. 
 - Já com o SQL Nativo, se você decidir mudar de um banco de dados para outro, provavelmente terá que reescrever uma parte das suas consultas, visto que cada banco tem suas particularidades de sintaxe e funcionamento.
 - A escolha entre JPQL e SQL Nativo muitas vezes depende das necessidades do seu projeto. Se a portabilidade é uma prioridade e se o seu modelo de domínio é complexo e rico de informações, a JPQL pode ser a melhor escolha. Se o desempenho é uma prioridade e você precisa de controle detalhado sobre suas consultas, o SQL Nativo pode ser a melhor opção.
+
+- Adicao de nova funcionalidade. Atraves de um novo metodo na interface SerieRepository:
+
+```java
+import br.com.alura.screenmatch.model.Episodio;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+interface SerieRepository extends JpaRepository<Serie, Long> {
+    ...
+    @Query("SELECT e from Serie s JOIN s.episodios e WHERE e.titulo ILIKE %:trechoEpisodio")
+    List<Episodio> episodiosPorTrecho(String trechoEpisodio);
+}
+```
+- Chamando o metodo do repositorio na classe Principal:
+```java
+class Principal {
+    ...
+    private void buscarEpisodioPorTrecho() {
+        System.out.println("Insira o trecho que preocura:");
+        String trechoInserido = leitura.nextLine();
+        List<Episodio> episodiosEncontrados = repositorio.episodiosPorTrecho(trechoInserido);
+        episodiosEncontrados.forEach(e ->
+                System.out.printf("Serie-> %s: Temporada %s - Episodio %s - %s\n" ,
+                        e.getSerie().getTitulo(), e.getTemporada(), e.getNumeroEpisodio(),
+                        e.getTitulo()));
+    }
+}
+```
