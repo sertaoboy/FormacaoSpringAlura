@@ -533,6 +533,8 @@ interface SerieRepository extends JpaRepository<Serie, Long> {
     List<Episodio> episodiosPorTrecho(String trechoEpisodio);
 }
 ```
+- LIKE: um comando SQL usado na clausula WHERE para procurar um padrao especifico em uma coluna. E uma maneira que voce pode usar um filtro de pesquisa em uma planilha Excel, ou utilizar o metodo `contains()` do java.
+- Mas onde se encaixa o comando ILIKE que utilizamos em aula? O comando LIKE é sensível a maiúsculas e minúsculas em alguns bancos de dados. Portanto, se você quiser uma busca que não leve isso em consideração, como se fosse o IgnoreCase em Java, você deve utilizar o ILIKE.
 - Chamando o metodo do repositorio na classe Principal:
 ```java
 class Principal {
