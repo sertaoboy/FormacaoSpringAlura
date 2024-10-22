@@ -476,3 +476,30 @@ public enum Categoria {
     }
 }
 ```
+# Aula 5
+- Utilizando query na interface SerieRepository. Com a anotacao `@Query` conseguimos passar um valor no seu parametro onde serie a query do banco de dados:
+```java
+public interface SerieRepository extends JpaRepository<Serie, Long> {
+    ...
+    @Query(value = "select * from series WHERE series.total_temporadas <= 5 AND series.avaliacao >= 7.5", nativeQuery = true)
+    List<Serie> seriesPorTemporadaEAvaliacao();
+}
+```
+- Assim, podemos alterar o metodo `buscarSeriesPorTemporada()` e passar a utilizar a implementacao da interface que modificamos:
+```java
+class Principal {
+    ...
+    private void buscarSeriesPorTemporadasEAvaliacao(){
+        System.out.println("Insira um total de temporadas para filtrar:");
+        var totalTemporadas = leitura.nextInt();
+        System.out.println("Com a avaliacao a partir de qual valor?");
+        var avaliacaoInserida = leitura.nextDouble();
+//        List<Serie> filtroSeries = repositorio.findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(totalTemporadas,avaliacaoInserida);  ---> antiga implementacao
+        List<Serie> filtroSeries = repositorio.seriesPorTemporadaEAvaliacao();
+        System.out.println("*** Series filtradas ***");
+        filtroSeries.forEach(s -> System.out.println(s.getTitulo()+" - avaliacao:"+s.getAvaliacao()));
+    }
+    ...
+} 
+```
+- *JPQL*. 
