@@ -236,6 +236,5 @@ public class Principal {
                     System.out.printf("Serie -> %s Temporada %s - Episodio %s - %s Avaliacao %s\n",
                             e.getSerie().getTitulo(), e.getTemporada(), e.getNumeroEpisodio(), e.getTitulo(), e.getAvaliacao()));
         }
-
     }
 }
