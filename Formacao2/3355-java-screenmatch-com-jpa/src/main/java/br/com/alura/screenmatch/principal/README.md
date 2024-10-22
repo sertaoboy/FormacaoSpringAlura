@@ -433,6 +433,7 @@ class principal {
                		.sorted(Comparator.comparing(Serie::getGenero))
                 		.forEach(System.out::println);
                 // dadosSeries.forEach(System.out::println);
+            }
     }
 ```
 - Ler dados dinamicamente e armazenar em um Enum. Fazer correspondencia entre o que esta sendo digitado e um campo no Enum:
