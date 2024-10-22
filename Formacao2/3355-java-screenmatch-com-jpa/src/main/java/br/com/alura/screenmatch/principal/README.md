@@ -502,4 +502,16 @@ class Principal {
     ...
 } 
 ```
-- *JPQL*. 
+- *JPQL*. Java Persistence Query Language, linguagem de consulta da JPA. Torna mais flexiveis as consultas, podemos agora realizar pelos atributos e nao ficar presos as colunas do banco de dados.
+
+```java
+import br.com.alura.screenmatch.model.Serie;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+public interface SerieRepository extends JpaRepository<Serie, Long> {
+    ...
+    @Query("select s from Serie s WHERE s.totalTemporadas <= :totalTemporadas AND s.avaliacao >= :avaliacao")
+    List<Serie> seriesPorTemporadaEAvaliacao(int totalTemporadas, double avaliacao);
+} 
+```
