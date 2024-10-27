@@ -583,6 +583,7 @@ interface SerieRepository extends JpaRepository<Serie,Long> {
 - Criacao de metodos personalizdos e mais legiveis: Utilizar a JPQL pode auxiliar na escrita de metodos mais legiveis. Para isso, basta escrever o nome do metodo e anota-lo como `@Query`
 - Aprofundamento em linguagem SQL. Expressoes utilizadas: LIKE,ORDER e LIMIT.
 - Recuperacao de informacoes secundarias relacionadas a episodios a partir de serie, utilizando o recurso das *junções* (JOIN).
+- O Java tem uma API de datas, o SQL tambem tem sua forma de lidar com datas atraves da funcao YEAR do SQL:
 ```java
 interface SerieRepository {
     ...
@@ -598,7 +599,6 @@ interface SerieRepository {
     
 }
 ```
-- O Java tem uma API de datas, o SQL tambem tem sua forma de lidar com datas atraves da funcao YEAR do SQL como evidenciado acima.
 
 
 
