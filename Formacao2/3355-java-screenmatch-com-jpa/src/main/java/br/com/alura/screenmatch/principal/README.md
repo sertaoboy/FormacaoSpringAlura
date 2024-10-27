@@ -579,3 +579,26 @@ interface SerieRepository extends JpaRepository<Serie,Long> {
     List<Episodio> topEpisodiosPorSerie(Serie serie);
 }
 ```
+- Diferenciacao dos tipos de consulta da JPA. Vimmos que podemos trabalhar com derived queries, com queries nativas usando o `nativequery` e a JPQL, linguagem de busca da JPA.
+- Criacao de metodos personalizdos e mais legiveis: Utilizar a JPQL pode auxiliar na escrita de metodos mais legiveis. Para isso, basta escrever o nome do metodo e anota-lo como `@Query`
+- Aprofundamento em linguagem SQL. Expressoes utilizadas: LIKE,ORDER e LIMIT.
+- Recuperacao de informacoes secundarias relacionadas a episodios a partir de serie, utilizando o recurso das *junções* (JOIN).
+```java
+interface SerieRepository {
+    ...
+    
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE e.titulo ILIKE %:trechoEpisodio")
+    List<Episodio> episodiosPorTrecho(String trechoEpisodio);
+
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = :serie ORDER BY e.avaliacao DESC LIMIT 5")
+    List<Episodio> topEpisodiosPorSerie(Serie serie);
+
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = :serie AND YEAR(e.dataLancamento) >= :anoLancamento")
+    List<Episodio> episodiosPorSerieEAno(Serie serie, int anoLancamento);
+    
+}
+```
+- O Java tem uma API de datas, o SQL tambem tem sua forma de lidar com datas atraves da funcao YEAR do SQL como evidenciado acima.
+
+
+
