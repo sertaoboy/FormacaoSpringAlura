@@ -1,4 +1,7 @@
 package br.com.alura.screensound.model;
 
-public class TipoArtista {
+public enum TipoArtista {
+    SOLO,
+    DUPLA,
+    BANDA;
 }

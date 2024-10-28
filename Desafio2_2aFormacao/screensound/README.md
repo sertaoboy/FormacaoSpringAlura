@@ -87,3 +87,37 @@ spring.datasource.password=
 spring.datasource.driver-class-name=org.postgresql.Driver
 hibernate.dialect=org.hibernate.dialect.HSQLDialect
 ```
+- Mapeando as classes Artista e Musica para que podemos realizar o relacionamento entre eles no banco de dados;
+```java
+@Entity
+@Table(name = "musicas")
+public class Musica {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String titulo;
+    @ManyToOne
+    private Artista artista;
+
+}
+```
+```java
+@Entity
+@Table(name = "artistas")
+public class Artista {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
+    private String nome;
+    @Enumerated(EnumType.STRING)
+    private TipoArtista tipo;
+    @OneToMany(mappedBy = "artista")
+    private List<Musica> musicas = new ArrayList<>();
+
+}
+```
+- Adicao da seguinte propriedade para a o Hibernate conseguir gerar as tabelas no PostgreSQL:
+```properties
+spring.jpa.hibernate.ddl-auto=update
+```
