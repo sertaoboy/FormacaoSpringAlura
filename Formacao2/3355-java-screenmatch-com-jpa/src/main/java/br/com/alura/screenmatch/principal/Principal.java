@@ -32,7 +32,7 @@ public class Principal {
         do{
             var menu = """
                 1 - Buscar séries
-                2 - Buscar episódios
+                2 - Salvar episodios de uma serie 
                 3 - Listar series buscadas
                 4 - Buscar serie por titulo
                 5 - Buscar series por ator
@@ -191,8 +191,11 @@ public class Principal {
     }
 
     private void buscarSerieWeb() {
+        System.out.println("Buscando dados da serie");
         DadosSerie dados = getDadosSerie();
+        System.out.println("Instanciando serie");
         Serie serie = new Serie(dados);
+        System.out.println("Salvando serie no banco de dados");
         repositorio.save(serie);
 //        dadosSeries.add(dados);
 //       System.out.println(dados);
@@ -207,27 +210,40 @@ public class Principal {
     }
 
     private void buscarEpisodioPorSerie(){
+        System.out.println("Listando series procuradas...");
         listarSeriesBuscadas();
 //        DadosSerie dadosSerie = getDadosSerie();
         System.out.println("Escolha uma serie pelo nome:");
         String nomeSerie = leitura.nextLine();
+        System.out.println("Procurando no banco de dados...");
         Optional<Serie> serie = repositorio.findByTituloContainingIgnoreCase(nomeSerie);
         if(serie.isPresent()) {
+            System.out.println("Serie encontrada");
             Serie serieEncontrada = serie.get();
+            System.out.println("Criando listas de temporadas...");
             List<DadosTemporada> temporadas = new ArrayList<>();
             for (int i = 1; i <= serieEncontrada.getTotalTemporadas(); i++) {
+                System.out.println("Obtendo os dados da serie...");
                 var json = consumo.obterDados(ENDERECO + serieEncontrada.getTitulo().replace(" ", "+") + "&season=" + i + API_KEY);
+                System.out.println("Instanciando os dados das temporadas pelas series recebidas da API...");
                 DadosTemporada dadosTemporada = conversor.obterDados(json, DadosTemporada.class);
+                System.out.println("Adicioando os dados na lista...");
                 temporadas.add(dadosTemporada);
             }
+            System.out.println("*** Lista de Episodios***");
             temporadas.forEach(System.out::println);
+            System.out.println("**************************");
 
+            System.out.println("Criando uma stream de uma lista de episodios");
             List<Episodio> episodios = temporadas.stream()
                     .flatMap(d -> d.episodios().stream()
                             .map(e -> new Episodio(d.numero(), e)))
                     .collect(Collectors.toList());
+            System.out.println("Setando episodios da serie ");
             serieEncontrada.setEpisodios(episodios);
+            System.out.println("Salvando no banco de dados...");
             repositorio.save(serieEncontrada);
+            System.out.println("Episodios salvos.");
         }else{
             System.out.println("Serie nao encontrada.");
         }

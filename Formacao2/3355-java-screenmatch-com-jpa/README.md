@@ -6,7 +6,7 @@
 Projeto desenvolvido no segundo curso da formação Avançando com Java da Alura
 
 
-## 🔨 Objetivos do projeto
+## Objetivos do projeto
 
 - Evoluir no projeto Screenmatch, iniciado no primeiro curso da formação, criando um menu com várias opções;
 - Modelar as abstrações da aplicação através de classes, enums, atributos e métodos;
@@ -15,4 +15,6 @@ Projeto desenvolvido no segundo curso da formação Avançando com Java da Alura
 - Conhecer vários tipos de banco de dados e utilizar o PostgreSQL;
 - Trabalhar com vários tipos de consultas ao banco de dados;
 - Aprofundar na interface JPARepository
-- 
+
+- Exemplos no terminal:
+![demo1]()
