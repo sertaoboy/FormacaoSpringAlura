@@ -16,8 +16,15 @@ public class Artista {
     private String nome;
     @Enumerated(EnumType.STRING)
     private TipoArtista tipo;
-    @OneToMany(mappedBy = "artista")
+    @OneToMany(mappedBy = "artista", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Musica> musicas = new ArrayList<>();
+
+    public Artista(String nomeInserido, TipoArtista tipoArtista) {
+        this.nome=nomeInserido;
+        this.tipo=tipoArtista;
+    }
+    public Artista(){
+    }
 
     public Long getId() {
         return id;
@@ -54,7 +61,7 @@ public class Artista {
     @Override
     public String toString() {
         return  "Artista:"+
-                ", nome='" + nome + '\'' +
+                "nome='" + nome + '\'' +
                 ", tipo=" + tipo +
                 ", musicas=" + musicas;
     }

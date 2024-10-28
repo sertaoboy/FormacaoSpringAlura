@@ -121,3 +121,102 @@ public class Artista {
 ```properties
 spring.jpa.hibernate.ddl-auto=update
 ```
+- Criacao do Repositorio `ArtistaRepository` para realizar as Queries devidas:
+```java
+public interface ArtistaRepository extends JpaRepository<Artista, Long> {
+    Optional<Artista> findByNomeContainingIgnoreCase(String nomeInserido);
+
+    @Query("SELECT m FROM Artista a JOIN a.musicas m WHERE a.nome ILIKE %:nome%")
+    List<Musica> buscaMusicasPorArtista(String nome);
+}
+```
+- No metodo `buscaMusicasPorArtista(nome)` foi usado JPQL para as Queries no banco de dados.
+- Corrigindo o *cascade* no mapemanto de artista para musica:
+```java
+class Artista {
+    ...
+    @OneToMany(mappedBy = "artista", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Musica> musicas = new ArrayList<>();
+    ...
+}
+```
+- Desta forma a querie consegue salvar os dados relacionados no banco de dados.
+- Atibuindo o Repositorio na aplicacao Spring e passando-a como parametro para o construtor de App:
+```java
+@SpringBootApplication
+public class ScreensoundApplication implements CommandLineRunner {
+	@Autowired
+	private ArtistaRepository repositorio;
+    ...
+    @Override
+    public void run(String... args) throws Exception {
+        App princpial = new App(repositorio);
+        princpial.exibirMenu();
+    }
+```
+> Corrigindo problema de recursao chamando o .toString() de Musica: <br>
+```java
+class Musica {
+    ...
+    @Override
+    public String toString() {
+        return "Musica:" +
+                ", titulo='" + titulo + '\'' +
+                ", artista=" + artista.getNome(); //correcao de recursao!
+    }
+}
+```
+- Agora com o repositorio pronto prosseguimos com os metodos:
+```java
+class App {
+    private final ArtistaRepository repositorio;
+    ...
+    public App(ArtistaRepository repositorio) {
+        this.repositorio = repositorio;
+    }
+
+    private void buscarMusicasPorArtista() {
+        System.out.println("De qual Artista deseja buscar as musicas?");
+        String nomeArtista = leitura.nextLine();
+        List<Musica>musicas = repositorio.buscaMusicasPorArtista(nomeArtista);
+        musicas.forEach(System.out::println);
+    }
+
+    private void listarMusicas() {
+        List<Artista> artistas = repositorio.findAll();
+        artistas.forEach(a -> a.getMusicas().forEach(System.out::println));
+    }
+    private void cadastrarMusicas() {
+        System.out.println("Cadastar musicas de que Artista?");
+        var nomeInserido = leitura.nextLine();
+        Optional<Artista>artista =repositorio.findByNomeContainingIgnoreCase(nomeInserido);
+        if(artista.isPresent()) {
+            System.out.println("Informe o titulo da musica");
+            var nomemusicaInserida = leitura.nextLine();
+            Musica musica = new Musica(nomemusicaInserida);
+            System.out.println("Salvando artista...");
+            musica.setArtista(artista.get());
+            System.out.println("Salvando musica...");
+            artista.get().getMusicas().add(musica);
+            repositorio.save(artista.get());
+            System.out.println("Musica salva!");
+        }else {
+            System.out.println("Artista nao encontrado.");
+        }
+    }
+    private void cadastrarArtistas() {
+        String cadastrarNovo = "S";
+        while (cadastrarNovo.equalsIgnoreCase("s")) {
+            System.out.println("Informe o nome do artista:");
+            String nomeInserido = leitura.nextLine();
+            System.out.println("Informe o tipo desse artista (solo,dupla ou banda)");
+            var tipo = leitura.nextLine();
+            TipoArtista tipoArtista = TipoArtista.valueOf(tipo.toUpperCase()); //conversao de string para enum(TipoArtista)
+            Artista artista = new Artista(nomeInserido,tipoArtista);
+            repositorio.save(artista);
+            System.out.println("Deseja cadastar outro artista? (S/N)");
+            cadastrarNovo=leitura.nextLine();
+        }
+    }
+}
+```
