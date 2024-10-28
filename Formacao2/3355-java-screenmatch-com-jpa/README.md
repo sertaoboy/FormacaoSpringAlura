@@ -17,4 +17,11 @@ Projeto desenvolvido no segundo curso da formação Avançando com Java da Alura
 - Aprofundar na interface JPARepository
 
 - Exemplos no terminal:
-![demo1]()
+![demo1](https://github.com/sertaoboy/FormacaoSpringAlura/blob/main/Formacao2/3355-java-screenmatch-com-jpa/imgs/img_6.png?raw=true)
+![demo2](https://github.com/sertaoboy/FormacaoSpringAlura/blob/main/Formacao2/3355-java-screenmatch-com-jpa/imgs/img_1.png?raw=true)
+![demo3](https://github.com/sertaoboy/FormacaoSpringAlura/blob/main/Formacao2/3355-java-screenmatch-com-jpa/imgs/img_2.png?raw=true)
+![demo4](https://github.com/sertaoboy/FormacaoSpringAlura/blob/main/Formacao2/3355-java-screenmatch-com-jpa/imgs/img_4.png?raw=true)
+- Exemplos no PostgreSQL:
+![demodb1](https://github.com/sertaoboy/FormacaoSpringAlura/blob/main/Formacao2/3355-java-screenmatch-com-jpa/imgs/img_5.png?raw=true)
+![demodb2](https://github.com/sertaoboy/FormacaoSpringAlura/blob/main/Formacao2/3355-java-screenmatch-com-jpa/imgs/img_db.png?raw=true)
+![demodb3]()
