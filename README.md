@@ -7,7 +7,7 @@ Projeto desenvolvido no segundo curso da formação Avançando com Java da Alura
 
 
 ## Objetivos do projeto
-
+### Formacao 1 e 2
 - Evoluir no projeto Screenmatch, iniciado no primeiro curso da formação, criando um menu com várias opções;
 - Modelar as abstrações da aplicação através de classes, enums, atributos e métodos;
 - Consumir a API do ChatGPT;
@@ -25,3 +25,11 @@ Projeto desenvolvido no segundo curso da formação Avançando com Java da Alura
 ![demodb1](https://github.com/sertaoboy/FormacaoSpringAlura/blob/main/Formacao2/3355-java-screenmatch-com-jpa/imgs/img_5.png?raw=true)
 ![demodb2](https://github.com/sertaoboy/FormacaoSpringAlura/blob/main/Formacao2/3355-java-screenmatch-com-jpa/imgs/img_db.png?raw=true)
 ![demodb3]()
+
+
+### Formacao 3
+- Utilizar o Spring Web e seus recursos; criar um servidor web;
+- Mapear rotas em um controlador;
+- Conectar front-end ao back-end;
+- Conhecer e tratar erros de CORS;
+- Boas praticas de projeto web.
