@@ -49,8 +49,9 @@ public class SerieController {
 
 
     @GetMapping("/series")
-    
-
+    public String obterSeries(){
+        return "aqui vao ser listadas as series";
+    }
 }
 ```
 - Anotacao `@RestController`: Basicamente ele é o responsável por controlar as requisições indicando quem deve receber as requisições para quem deve responde-las. 
