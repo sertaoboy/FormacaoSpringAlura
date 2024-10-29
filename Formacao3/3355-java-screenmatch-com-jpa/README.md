@@ -185,6 +185,40 @@ public class CorsConfiguration implements WebMvcConfigurer {
 - Então, vamos em "File > Settings… > Build, Execution, Deployment > Compiler". Marcaremos a opção "Build project automatically". Além dessa opção, precisaremos de mais uma. Primeiro, vamos aplicar a alteração anterior clicando em "Apply" no canto inferior direito.
 - "Advanced Settings", último item do menu lateral esquerdo, vamos marcar a opção "Allow auto-make to start even if developed application is currently running", que é a segunda opção da lista. Feito isso, podemos aplicar e clicar em "OK".
 
+### Dividindo as responsabilidades; diminuindo o acoplamento:
+- Visando boas praticas e performance, observamos que o Spring trabalha com *injecao de dependencias*, ou seja, garante que o proprio Spring gerencie nossas classes e instancias no momento em que ha necessidade.
+- Ao longo da formacao, foi criado o pacote `service`, que e justamente o pacote pra lidar com servicos. Classes que auxiliam as regras de negocio da nossa aplicacao. Entao com isso, podemos *desacoplar* o nosso repositorio da classe `SerieController`.
+- Com isso, podemos delegar o metodo `obterSeries()` e transformacao de `stream` para outra classe diferente, especificamente de `services`. Diminuindo assim a responsabilidade do controlador:
+```java
+@Service
+public class SerieService {
+    @Autowired
+    private SerieRepository repositorio;
+
+    public List<SerieDTO> obterTodasAsSeries(){
+        return repositorio.findAll()
+                .stream()
+                .map(s -> new SerieDTO(s.getId(),s.getTitulo(),s.getTotalTemporadas(),s.getAvaliacao(),s.getGenero(),s.getAtores(),s.getPosterUrl(),s.getSinpose(),s.getPremio(),s.getLancamento(),s.getDuracao(),s.getVotacoes()))
+                .collect(Collectors.toList());
+    }
+}
+```
+- Enquanto na classe `SerieController`:
+```java
+@RestController
+public class SerieController {
+    @Autowired
+    private SerieService servico;
+
+    @GetMapping("/series")
+    public List<SerieDTO> obterSeries(){
+        return servico.obterTodasAsSeries();
+    }
+
+}
+```
+> "Baixo acoplamento, alta coesao". Premissa de Orientacao a Objetos. O que significa essa "alta coesao"? Significa que uma classe esta coesa, ou seja, uma responsabilidade bem definida, deixando-a mais enxuta possivel. <br>
+
 
 # Aula 1
 - Como conectar o back-end ao front-end. Vimos que o front-end esperava buscar dados de uma url especifica, `localhost:8080`, que onde subimos o servidor TomCat.
