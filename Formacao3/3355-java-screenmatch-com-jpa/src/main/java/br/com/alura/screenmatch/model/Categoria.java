@@ -1,7 +1,7 @@
 package br.com.alura.screenmatch.model;
 
 public enum Categoria {
-    ACAO("Action", "Acao"),
+    ACAO("Action", "ação"),
     ROMANCE("Romance", "Romance"),
     COMEDIA("Comedy", "Comedia"),
     DRAMA("Drama", "Drama"),

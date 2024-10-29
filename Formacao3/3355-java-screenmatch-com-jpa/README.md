@@ -311,6 +311,55 @@ class SerieController{
     }
 }
 ```
+### Terminando os metodos:
+```java
+class SerieService {
+    ...
+    
+    public SerieDTO obterPorId(Long id) {
+        Optional <Serie> serie =repositorio.findById(id);
+        if(serie.isPresent()) {
+            Serie s = serie.get();
+            return new SerieDTO(s.getId(),s.getTitulo(),s.getTotalTemporadas(),s.getAvaliacao(),s.getGenero(),s.getAtores(),s.getPosterUrl(),s.getSinpose(),s.getPremio(),s.getLancamento(),s.getDuracao(),s.getVotacoes());
+        }else{
+            return null;
+        }
+    }
+
+    public List<EpisodioDTO> obterTodasTemporadas(Long id) {
+        Optional <Serie> serie =repositorio.findById(id);
+        if(serie.isPresent()) {
+            Serie s = serie.get();
+            return s.getEpisodios().stream()
+                    .map(e-> new EpisodioDTO(e.getTemporada(),e.getNumeroEpisodio(),e.getTitulo()))
+                    .collect(Collectors.toList());
+        }else{
+            return null;
+        }
+    }
+}
+```
+```java
+class SerieController {
+    ...
+    @GetMapping("/{id}")
+    public SerieDTO obterPorId(@PathVariable Long id){
+        return servico.obterPorId(id);
+    }
+
+    @GetMapping("/{id}/temporadas/todas")
+    public List<EpisodioDTO> obterTodasTemporadas(@PathVariable Long id){
+        return servico.obterTodasTemporadas(id);
+    }
+
+}
+```
+- Acima, o metodo `obterTodasTemproadas(id)` do controller e do DTO precisa ao inves de retornar a lista de series, um episdio, que sera vinculado a determinada temporada. Por isso houve a necessidade de criarmos uma record `EpisodioDTO`:
+```java
+record EpisodioDTO (Integer temporada, Integer numeroEpisodio, String titulo)  {
+}
+```
+- Exibindo episodios por temporada: 
 
 
 
@@ -328,3 +377,7 @@ class SerieController{
 - Configurar o Live Reload. Para que a aplicação não precise ser parada e reinicializada sempre que houver mudanças, usamos o Devtools e mudamos as configurações necessárias no Intellij.
 
 # Aula 3
+- Deixar o código mais limpo e organizado. Vimos que a única responsabilidade de um controlador é tratar da comunicação e das rotas da API. Assim, ele não deve conter regras de negócio. E para fazer essa divisão, criamos uma classe de serviços, a SerieService.
+- Utilizar boas práticas de extração de métodos Aplicamos princípios da orientação a objetos, extraindo métodos que eram comuns no código, facilitando a manutenção.
+- Criar uma url fixa para o Controller. Usamos o @RequestMapping para que todas as urls mapeadas pelo controlador de séries tenham como prefixo o “/series”.
+- Retornar os dados de uma única série. Para buscar uma série, precisamos que seu id seja passado como parâmetro. Conhecemos o @PathVariable, que nos auxilia nesse objetivo.
