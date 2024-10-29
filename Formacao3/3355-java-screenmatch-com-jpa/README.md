@@ -171,6 +171,19 @@ public class CorsConfiguration implements WebMvcConfigurer {
     }
 }
 ```
+### Configurando o Live-Reload
+- O Spring é muito eficaz e já oferece uma função para nós, o DevTools, que vai nos auxiliar exatamente com isso. Para usar o DevTools no nosso projeto, podemos utilizar uma dependência, que vamos copiar e colar no código do arquivo pom.xml.
+```xml
+<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <scope>runtime</scope>
+        <optional>true</optional>
+</dependency>
+```
+- Feito isso, vamos rodar o Maven novamente. Em seguida, precisaremos configurar também o IntelliJ, porque o projeto já está configurado para utilizar o DevTools, mas devemos ativar algumas permissões no IntelliJ.
+- Então, vamos em "File > Settings… > Build, Execution, Deployment > Compiler". Marcaremos a opção "Build project automatically". Além dessa opção, precisaremos de mais uma. Primeiro, vamos aplicar a alteração anterior clicando em "Apply" no canto inferior direito.
+- "Advanced Settings", último item do menu lateral esquerdo, vamos marcar a opção "Allow auto-make to start even if developed application is currently running", que é a segunda opção da lista. Feito isso, podemos aplicar e clicar em "OK".
 
 
 # Aula 1
@@ -178,3 +191,10 @@ public class CorsConfiguration implements WebMvcConfigurer {
 - Configurar uma aplicacao web com Spring Boot. Conhecemos a dependencia *starter-web* do Spring, que baixa outras varias dependencias e configura automaticamente um servidor na porta 8080, ou em outra que configuremos nossa aplicacao.
 - Organizar um projeto MVC. Aprendemos como estruturar o projeto em varias chamadas e como conecta-las.
 - Retornar uma informacao do navegador. Criamos nosso primeiro controller e nossa primeira rota da API, utilizando as anotacoes `@RestController` e `@GetMapping()`
+
+# Aula 2
+- Devolver os dados do nosso banco para o navegador. Trabalhamos devolvendo os dados do nosso banco no Controller, devidamente serializados. 
+- Tratar serialização circular. Vimos os problemas que ocorrem ao tentar serializar entidades mapeadas de forma bidirecional e como resolvê-los.
+- Utilizar o padrão DTO. Para evitar a serialização circular e principalmente para seguir boas práticas, criamos nossos DTOs. Assim, nossos dados ficaram mais seguros e foram devolvidos de forma personalizada.
+- Lidar com o erro de CORS. Conhecemos o erro entre a comunicação entre rotas de origens diferentes e pudemos tratá-lo, criando a classe CorsConfiguration.
+- Configurar o Live Reload. Para que a aplicação não precise ser parada e reinicializada sempre que houver mudanças, usamos o Devtools e mudamos as configurações necessárias no Intellij.
