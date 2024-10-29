@@ -148,6 +148,16 @@ public class SerieController {
     }
 }
 ```
+- Agora desta maneira, a rota `/series` na porta 8080 estara retornando corretamente as series.
+- Apesar de estar funcional, ao abrir a aplicacao pelo navegador nota-se erros de cabecalhos. Isso acontece devido a politica do CORS, pois no caso a aplicacao origem esta em uma porta diferente da aplicacao destino;
+### Para saber mais: CORS
+- O CORS (Cross-origin Resource Sharing) é um mecanismo usado para adicionar cabeçalhos HTTP que informam aos navegadores para permitir que uma aplicação Web seja executada em uma origem e acesse recursos de outra origem diferente. Esse tipo de ação é chamada de requisição cross-origin HTTP.
+- É usado para habilitar solicitações entre sites para chamadas XMLHttpRequest ou FetchAPI (entre origens diferentes), web fonts (@font do CSS), texturas WebGL e frames de desenhos usando o drawImage().
+- Referencias:
+> https://www.alura.com.br/artigos/como-resolver-erro-de-cross-origin-resource-sharing <br>
+> https://www.alura.com.br/artigos/desmistificando-o-protocolo-http-parte-1 <br>
+> https://www.alura.com.br/artigos/diferencas-entre-get-e-post <br>
+> https://www.alura.com.br/artigos/qual-e-diferenca-entre-http-e-https <br>
 
 
 # Aula 1
