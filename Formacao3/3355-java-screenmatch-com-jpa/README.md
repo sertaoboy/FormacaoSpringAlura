@@ -222,7 +222,7 @@ public class SerieController {
 ### Para saber mais: anotacoes do SpringBoot
 - O Spring Framework oferece uma ampla gama de anotações para desenvolvimento de aplicações web. Aqui estão algumas das anotações mais comuns e importantes usadas no Spring para aplicações web:
 - `@Controller`: Usada para marcar uma classe como um controlador no padrão MVC (Model-View-Controller). Essa anotação é usada para receber requisições e manipular lógica de negócios.
-- `@RestController`: Uma variação de @Controller, específica para APIs RESTful. Combina as anotações @Controller e @ResponseBody, indicando que cada método retorna um objeto serializado diretamente em JSON ou XML como resposta.
+- `@RestController`: Uma variação de @Controller, específica para APIs RESTful. Combina as anotações `@Controller` e `@ResponseBody`, indicando que cada método retorna um objeto serializado diretamente em JSON ou XML como resposta.
 - `@RequestMapping`: Define mapeamentos entre URLs e métodos de controlador. Especifica as URLs para as quais um método do controlador deve responder e os métodos HTTP correspondentes (GET, POST, PUT, DELETE etc.).
 - `@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`: Atalhos para as operações HTTP GET, POST, PUT e DELETE, respectivamente, em métodos de controlador.
 - `@RequestParam`: Usada para mapear os parâmetros de requisição HTTP para os parâmetros do método do controlador.
@@ -231,6 +231,54 @@ public class SerieController {
 - `@ResponseBody`: Indica que o valor retornado pelo método do controlador deve ser usado diretamente como corpo da resposta HTTP.
 - `@Valid` e `@Validated`: Utilizadas para ativar a validação de entrada no lado do servidor. Geralmente combinadas com anotações de validação, como `@NotNull`, `@Size`, `@Min`, `@Max`, entre outras.
 - `@CrossOrigin`: Utilizada para configurar permissões de acesso a recursos de diferentes origens (CORS - Cross-Origin Resource Sharing).
+
+### Algumas refatoracoes:
+- Tendo como objetivo a escalabilidade e reducao de codigos repetidos, foi criado um metodo *privado* na classe `SerieService` em que ele faz a atribuicao dos dados de series do banco de dados para uma `SerieDTO`, e nos outros metodos da classe, chamamos o recem criado metodo `converteDados(List<SerieDTO>series)` e passamos no parametro o `repositorio.`:
+```java
+@Service
+public class SerieService {
+    @Autowired
+    private SerieRepository repositorio;
+
+
+    public List<SerieDTO> obterTodasAsSeries(){
+        return converteDados(repositorio.findAll());
+    }
+
+    public List<SerieDTO> obterTop5Series() {
+        return converteDados(repositorio.findTop5ByOrderByAvaliacaoDesc());
+
+    }
+
+    private List<SerieDTO> converteDados(List<Serie> series){
+        return series
+                .stream()
+                .map(s -> new SerieDTO(s.getId(),s.getTitulo(),s.getTotalTemporadas(),s.getAvaliacao(),s.getGenero(),s.getAtores(),s.getPosterUrl(),s.getSinpose(),s.getPremio(),s.getLancamento(),s.getDuracao(),s.getVotacoes()))
+                .collect(Collectors.toList());
+    }
+}
+```
+- Anotacao `@RequestMapping(rota)`: para configurar os endpoints a partir de uma rota ja definida, no caso `/series`, podemos usar essa anotacao. Assim configuramos os metodos sem repetir essa rota e acrescentando os endpoints desejados dependendo do metodo:
+```java
+@RestController
+@RequestMapping("/series")
+public class SerieController {
+    @Autowired
+    private SerieService servico;
+
+    @GetMapping
+    public List<SerieDTO> obterSeries(){
+        return servico.obterTodasAsSeries();
+    }
+
+    @GetMapping("/top5")
+    public List<SerieDTO> obterTop5Series(){
+        return servico.obterTop5Series();
+    }
+
+}
+```
+- Como e possivel notar em `obterTop5Series()`, onde a anotacao `@GetMapping("/top5")` ja parte de `/series` para o endpoint desejado (`/top5`).
 
 
 # Aula 1
