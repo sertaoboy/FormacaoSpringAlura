@@ -56,3 +56,10 @@ public class SerieController {
 ```
 - Anotacao `@RestController`: Basicamente ele é o responsável por controlar as requisições indicando quem deve receber as requisições para quem deve responde-las. 
 - Anotacao `@GetMapping("rota")`: Responsavel para sinalizar a rota ao metodo evidenciado.
+
+
+# Aula 1
+- Como conectar o back-end ao front-end. Vimos que o front-end esperava buscar dados de uma url especifica, `localhost:8080`, que onde subimos o servidor TomCat.
+- Configurar uma aplicacao web com Spring Boot. Conhecemos a dependencia *starter-web* do Spring, que baixa outras varias dependencias e configura automaticamente um servidor na porta 8080, ou em outra que configuremos nossa aplicacao.
+- Organizar um projeto MVC. Aprendemos como estruturar o projeto em varias chamadas e como conecta-las.
+- Retornar uma informacao do navegador. Criamos nosso primeiro controller e nossa primeira rota da API, utilizando as anotacoes `@RestController` e `@GetMapping()`
