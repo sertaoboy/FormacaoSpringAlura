@@ -53,6 +53,8 @@ public class SerieController {
         return servico.obterSeriesPorCategoria(nomeGenero);
     }
 
+    //to do: retornar top 5 episodios de uma serie
+
 
 
 }
