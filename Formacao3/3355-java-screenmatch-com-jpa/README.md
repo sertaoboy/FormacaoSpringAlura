@@ -279,6 +279,39 @@ public class SerieController {
 }
 ```
 - Como e possivel notar em `obterTop5Series()`, onde a anotacao `@GetMapping("/top5")` ja parte de `/series` para o endpoint desejado (`/top5`).
+- Criacao do metodo para retornar as series mais recentes no banco de dados: 
+- Usando a JPQL em `SerieRepository`
+```java
+interface SerieRepository{
+    ...
+    @Query("SELECT s FROM Serie s " +
+            "JOIN s.episodios e " +
+            "GROUP BY s " +
+            "ORDER BY MAX(e.dataLancamento) DESC LIMIT 5")
+    List<Serie> encontrarEpisodiosMaisRecentes();
+}
+```
+- Adicionando o metodo em `SerieService`
+```java
+class SerieService{
+    ...
+    public List<SerieDTO> obterSeriesMaisRecentes(){
+        return converteDados(repositorio.encontrarEpisodiosMaisRecentes());
+    }
+}
+```
+- Chamando a o metodo no controller
+```java
+class SerieController{
+    ...
+    @GetMapping("/lancamentos")
+    public List<SerieDTO> obterLancamentos() {
+//        return servico.obterLancamentos(); deprecated
+        return servico.obterSeriesMaisRecentes();
+    }
+}
+```
+
 
 
 # Aula 1
