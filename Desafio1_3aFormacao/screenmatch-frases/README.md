@@ -154,3 +154,5 @@ public interface FraseRepository extends JpaRepository<Frase,Long> {
     Frase buscaFraseAleatoria();
 }
 ```
+### Aplicacao em execucao:
+![demoApp]()
