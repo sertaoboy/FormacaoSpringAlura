@@ -1,7 +1,7 @@
-# Anotacoes
+# Notes
 - Por se tratar de uma implementacao para um aplicacao web ha algumas alteracoes a serem consideradas:
 - Adicao de uma dependencia do proprio Spring para aplicacao Web;
-- A remocao da interface `CommandLineRunner` na aplicacao Spring:
+- A remocao da interface `CommandLineRunner` na aplicacao Spring, repositorio e o metodo `run()`:
 ```java
 @SpringBootApplication
 public class ScreenmatchApplication {
@@ -32,10 +32,26 @@ server.port=8081
 > 1 - O Modelo, que é onde todos os dados e as regras de negócio são processados. <br>
 > 2 - A Visualização, que é a interface de usuário, onde você vê os resultados das operações. <br>
 > 3 - E o Controlador, que é como o cérebro que opera as outras duas partes, recebendo entradas do usuário e enviando comandos para o Modelo e a Visualização. <br>
-### Como o Modeelo MVC ajuda na organizacao do codigo e na manuntencao do aplicativo?
+- Para mapear a rota HTTP, precisamos de um controlador. Seguindo as boas praticas, devemos criar um pacote `controller`. Nele, iremos criar a classe `SerieController`. Ela deve ser anotada com `@RestController`, que permite que a classe seja gerenciada pelo Spring e que ele reconheca que ela e um controlador.
+- Ainda no controller, criaremos o metodo `obterSeries()`, que deve ser anotado com `@GetMapping("/series)`, indicando para qual url nossa aplicacao sera mapeada.
+### Como o Modelo MVC ajuda na organizacao do codigo e na manuntencao do aplicativo?
 - Quando o código é bem organizado, é muito mais fácil identificar problemas, fazer atualizações e adicionar novas funcionalidades. Por exemplo, se um dia você decidir que quer mudar a cor de fundo do seu site, você só precisa ir na Visualização e fazer a mudança. Se decidir mudar as regras para adicionar um novo livro, vai direto para o Modelo.
 - Essa organização também facilita muito a vida de qualquer outra pessoa que possa trabalhar no seu código no futuro. E se você decidir oferecer seu site em diferentes linguagens, por exemplo, você pode simplesmente adicionar uma nova Visualização, sem precisar mexer no Modelo ou no Controlador.
 - Então, o Modelo MVC é um grande aliado na hora de desenvolver um aplicativo. Além de facilitar o entendimento e a manutenção do código, ajuda a prepará-lo para as mudanças e melhorias que sempre surgem ao longo do tempo.
 ### MVC em Java:
 > Em Java, o padrão MVC era comumente aplicado utilizando as tecnologias JSP ou Thymeleaf. Com o JSP (Java Server Pages), é possível misturar códigos Java e HTML para criar páginas web dinâmicas. Já no Thymeleaf, os códigos não se misturam, mas temos páginas HTML dentro da pasta resources do projeto. Essas páginas se comunicam com o código Java e fazem com que possamos visualizar as informações no navegador. <br>
 > Essas tecnologias faziam com que a View do MVC estivesse dentro da aplicação Java. Porém, atualmente o mais comum no mercado é ter uma separação entre front-end e back-end. No back-end, temos a Model e o Controller. O back-end fornece informações que serão utilizadas pelo front-end, que será responsável pela parte da View. <br>
+
+## SerieController
+```java
+@RestController
+public class SerieController {
+
+
+    @GetMapping("/series")
+    
+
+}
+```
+- Anotacao `@RestController`: Basicamente ele é o responsável por controlar as requisições indicando quem deve receber as requisições para quem deve responde-las. 
+- Anotacao `@GetMapping("rota")`: Responsavel para sinalizar a rota ao metodo evidenciado.
