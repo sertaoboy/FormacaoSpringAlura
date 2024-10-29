@@ -27,7 +27,9 @@ public class SerieController {
 
     @GetMapping("/lancamentos")
     public List<SerieDTO> obterLancamentos() {
-        return servico.obterLancamentos();
+//        return servico.obterLancamentos(); deprecated
+        return servico.obterSeriesMaisRecentes();
     }
+
 
 }
