@@ -114,6 +114,40 @@ com.myblog
 > No entanto, 'Package by Feature' é muitas vezes preferido para projetos menores e mais ágeis. Ele mantém todas as classes relacionadas a um recurso juntas, tornando mais fácil para um desenvolvedor entender completamente um recurso. Também é mais fácil de manter, porque quando um recurso é adicionado ou removido, você sabe exatamente onde todas as classes relacionadas estão. <br>
 > Aqui, optamos por utilizar o Package by Layer, mas é interessante que você analise todas as condições para ver a estrutura que melhor se adequa a seu projeto. <br>
 
+## DTO - Data Transfer Object ou Objeto de Transferencia de Dados
+- **Desgin Pattern**: foca na transferencias de dados entre camadas de uma aplicacao.
+- Criando o pacote `dto` e a record SerieDTO, visa-se somente devolver os atributos do objeto relacionado (Serie)
+```java
+public record SerieDTO( Long id,
+                        String titulo,
+                        Integer totalTemporadas,
+                        Double avaliacao,
+                        Categoria genero,
+                        String atores,
+                        String posterUrl,
+                        String sinpose,
+                        String premio,
+                        LocalDate lancamento,
+                        LocalDate duracao,
+                        List<String> votacoes) {
+}
+```
+- Com a record modelada, podemos dar continuidade ao retorno do metodo `obterSeries()` em SerieController. Como a record que sera atribuida para retornar os dados espera os atributos de Serie, podemos utilizar `stream()` para facilitar o instanciamento e o retorno das listas de objetos Serie:
+```java
+@RestController
+public class SerieController {
+    @Autowired
+    private SerieRepository repositorio;
+
+    @GetMapping("/series")
+    public List<SerieDTO> obterSeries() {
+        return repositorio.findAll()
+                .stream()
+                .map(s -> new SerieDTO(s.getId(), s.getTitulo(), s.getTotalTemporadas(), s.getAvaliacao(), s.getGenero(), s.getAtores(), s.getPosterUrl(), s.getSinpose(), s.getPremio(), s.getLancamento(), s.getDuracao(), s.getVotacoes()))
+                .collect(Collectors.toList());
+    }
+}
+```
 
 
 # Aula 1
